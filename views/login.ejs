@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- <link rel="icon" href="/img/QUBE.png"> -->
+    <title>Войти</title>
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+</head>
+<body>
+<div class="header">
+<a href="/">
+        <div class="logo-shop-conteiner logo-shop-conteiner-position">
+            <!-- <img src="/img/Logo.png" alt="logo" class="logo-shop float-left"> -->
+        </div>
+    </a>
+    <div class="header-text">Войти</div>
+    </div>
+    <div class="body">
+        <form method="post" class="form_login" action="/login"  id="loginform"><br><br>
+        <label >Логин</label><br>
+        <input style="font-size: 20px;" type="text" name="login" required /><br><br>
+        <label >Пароль</label><br>
+        <input style="font-size: 20px;" type="password" name="passwd" required /><br><br>
+        <input type="submit" value="Login" class="form_submit"/><br><br>
+    </form>
+    </div>
+    <div class="footer">
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!--   <script>
+        $('#loginform').submit(e => {
+            e.preventDefault();
+            let form = document.getElementById('loginform')
+            console.log( $(form).serialize() )
+            console.log('***  ***')
+            $.ajax({
+                url:"/login",
+                method:"post",
+                data: $(form).serialize()
+            })
+        })
+    </script> -->
+</body>
+</html>
+
+

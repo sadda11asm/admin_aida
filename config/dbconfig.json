@@ -1,0 +1,26 @@
+{
+  "dbDictionary": {
+    "host": "localhost",
+    "user": "adminPanel",
+    "password": "adminPanel2012",
+    "database": "dictionary_demo"
+  },
+  "dbBilling": {
+    "host": "localhost",
+    "user": "adminPanel",
+    "password": "adminPanel2012",
+    "database": "billing"
+  },
+  "dbUsers": {
+    "host": "localhost",
+    "user": "adminPanel",
+    "password": "adminPanel2012",
+    "database": "users_demo"
+  },
+  "dbDocuments": {
+    "host": "localhost",
+    "user": "adminPanel",
+    "password": "adminPanel2012",
+    "database": "orders_demo"
+  }
+}
