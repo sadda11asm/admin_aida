@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title id = 'title'>Admin</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="/fontawesome/releases_v5.0.13/css/all.css">
+	<link rel="stylesheet" href="/css/components/content.css">
+	<link rel="stylesheet" href="/css/components/header.css">
+	<link rel="stylesheet" href="/css/components/sidebar.css">
+	<link rel="stylesheet" href="/css/components/table.css">
+	<link rel="stylesheet" href="/css/components/modal.css">
+	<link rel="stylesheet" href="/css/common/typography.css">
+	<link rel="stylesheet" href="/css/pages/company.css">
+	<link rel="stylesheet" href="/css/pages/control.css">
+</head>
+<body>
+	<div class="layout">
+		<% include ./partial/aside%>
+		<main class="content collapse">
+			<div class="page">
+				<header class="header-page">
+					<div class="header-tabs" id = 'nav'></div>
+				</header>
+				<div class="content-page" id ='content-page'>
+					<div class="content-block">
+						<div class="button">Добавить</div>
+
+						<div class="modal" id="mo">
+							<div class="modal__backdrop"></div>
+							<div class="modal__inner">
+								<div class="form" id="modal-data"></div>
+							</div>
+						</div>
+		
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+</body>
+	<!-- <script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/control.js"></script>
+	<script type="text/javascript" src="/js/company.js"></script>
+	<script type="text/javascript" src="/js/documents.js"></script>
+	<script type="text/javascript" src="/js/aside.js"></script> -->
+</html>

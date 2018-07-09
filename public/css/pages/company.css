@@ -1,0 +1,92 @@
+.content-page {
+	margin: 20px 0;
+}
+.table {
+	width: 80%;
+	margin: 0 auto;
+	box-sizing: border-box;
+	display: flex;
+	flex-flow: column nowrap;
+	height: auto;
+	border: 1px solid #ddd;
+}	
+.table-header {
+	border-bottom: none;
+}
+.table__row {
+	width: 100%;
+	min-height: 20px;
+	display: flex;
+	flex-flow: row nowrap;
+	border-bottom: 1px solid #ddd;
+	font-weight: 600;
+}
+.table__row-header { 
+	font-weight: 600;
+	border-bottom: none;
+	background-color: #eee;
+	font-size: 17px;
+}
+.table__cell {
+	display: flex;
+	align-items: flex-start;
+	height: 100%;
+	padding: 10px;
+	height: auto;
+}
+.table__cell_attr {
+	flex-direction: column;
+	width: 35%;
+	border-left: 1px solid #ddd; 
+	border-right: 1px solid #ddd;
+}
+.table__cell_attr>div {
+	display: flex;
+	width: 100%;
+}
+.table__cell>i {
+	padding: 10px;
+	cursor: pointer;
+	font-size: 18.5px;
+}
+.table__cell>span {
+	padding: 0 10px 0 0;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.table__cell>i:hover {
+	font-size: 19.5px;
+	color: #f5db00;
+}
+.company-name {
+	width: 35%;
+}
+.company-type {
+	width: 20%;
+}
+.city {
+	width: 25%;
+}
+.rating {
+	width: 5%;
+	justify-content: center;
+}
+.action {
+	width: 15%;
+	justify-content: center;
+}
+.table__cell_width {
+	width: 25%;
+	border-right: 1px solid #ddd;
+	height: auto;
+}
+.action-block {
+	display: flex;
+	justify-content: flex-end;
+}
+.title {
+	width: 80%; 
+	margin: 20px auto;
+	font-size: 18px;
+	font-weight: 600;
+}

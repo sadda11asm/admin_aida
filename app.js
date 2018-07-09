@@ -9,17 +9,17 @@ const cookieParser = require('cookie-parser')
 app.set('views',path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname,'public')))
+app.use(express.static('/var/www/aida/cdn/documents/'))
 app.use(morgan('dev'))
 
 app.use(cookieParser('adminPanel'))
 // app.use(session({
 //   secret: 'admin',
-//   resave: false,
+//   resave: false, 
 //   saveUninitialized: true,
 //   domain: "localhost"
 // }))
 
-app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ parameterLimit: 100000,
 limit: '50mb',

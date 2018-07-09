@@ -1,0 +1,10 @@
+.content {
+  margin-left: 180px;
+  padding-top: 47px;
+}
+.content.collapse {
+    margin-left: 80px;
+}
+.content.collapse .header-page {
+      width: calc(100% - 80px);
+}

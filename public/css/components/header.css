@@ -1,0 +1,53 @@
+.header-page {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  width: calc(100% - 180px);
+  padding: 3px 0;
+  min-height: 3.36em;
+  background-color: #333;
+  -webkit-box-shadow: 0 0 20px -3px rgba(0, 0, 0, .6);
+          box-shadow: 0 0 20px -3px rgba(0, 0, 0, .6);
+}
+.header-page .back-header {
+    padding: 11px;
+    color: white;
+}
+.header-page .back-header span {
+      cursor: pointer;
+}
+.header-page .back-header span i {
+        margin-right: 10px;
+}
+.header-page .header-tabs {
+    width: 100%;
+}
+.header-page .header-tabs .tabs-items {
+      color: white;
+      margin: 0;
+      padding: 0;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      list-style: none;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+}
+.header-page .header-tabs .tabs-items .tab-item {
+        position: relative;
+        -webkit-transition: .3s;
+        transition: .3s;
+        padding: 11px;
+        cursor: pointer;
+}
+.header-page .header-tabs .tabs-items .tab-item.active:after {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 40px;
+          display: block;
+          height: 5px;
+          width: 100%;
+          background-color: #fecc09;
+}

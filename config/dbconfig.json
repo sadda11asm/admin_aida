@@ -22,5 +22,10 @@
     "user": "adminPanel",
     "password": "adminPanel2012",
     "database": "orders_demo"
+  },
+  "server": {
+    "host": "localhost",
+    "user": "adminPanel",
+    "password": "adminPanel2012"    
   }
 }

@@ -1,333 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+	<title id = 'title'>Admin</title>
 	<meta charset="UTF-8">
-	<title>Dictionary</title>
+	<link rel="stylesheet" href="/fontawesome/releases_v5.0.13/css/all.css">
+	<link rel="stylesheet" href="/css/components/content.css">
+	<link rel="stylesheet" href="/css/components/header.css">
+	<link rel="stylesheet" href="/css/components/sidebar.css">
+	<link rel="stylesheet" href="/css/components/modal.css">
+	<link rel="stylesheet" href="/css/pages/control.css">
+	<link rel="stylesheet" href="/css/components/table.css">
+	<link rel="stylesheet" href="/css/common/typography.css">
+	<link rel="stylesheet" href="/css/pages/company.css">
 </head>
 <body>
-  <form  method="post" id='form'>
-    <select id="dictionary" required>
-      <option value="#">Select dictionary</option>
-          <option value="category">add category </option>    
-          <option value="attribute">add attribute </option>  
-          <option value="product">add product </option>      
-          <option value="unit">add unit </option>            
-          <option value="valute">add valute </option>        
-          <option value="cargo_type">add cargo type</option> 
-          <option value="tails_type">add tails type</option> 
-          <option value="upload_type">add upload type</option> 
-          <option value="region">add region</option>         
-          <option value="city">add city</option>             
-          <option value="country">add country</option>       
-    </select> 
-    <div id="append"></div>
-  </form>
+	<div class="layout">
+		<% include ./partial/aside%>
+		<main class="content collapse">
+			<div class="page">
+				<header class="header-page">
+					<div class="header-tabs" id = 'nav'></div>
+				</header>
+				<div class="content-page" id = 'content-page'></div>
+				<!-- <form  method="post" id='form'>
+				    <select id="dictionary" required>
+				      <option value="#">Select dictionary</option>
+				      <option value="category">add category </option>
+				      <option value="attribute">add attribute </option>
+				      <option value="product">add product </option>
+				      <option value="unit">add unit </option>
+				      <option value="valute">add valute </option>
+				    </select>
+				   <div id="append">
+				</form> -->
+			</div>
+		</main>
+	</div>
 
-  <div id="v-dictionary">
-
-    <select v-model="selected" v-on:change="signalChange">
-      <option disabled value="">Выберите один из вариантов</option>
-      <option v-for="option in options" v-bind:value="option.value">{{ option.text }}</option>
-    </select>
-
-    <span>Выбрано: {{selected}} </span><br>
-
-    <component v-bind:is="currentTabComponent" v-bind:subcategories="subCategories.subCategories" v-bind:selected="selected"></component>
-
-  </div>
-
-  <script src="/js/main.js" type="text/javascript"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src = "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script>
-
-    Vue.component('tab-add-category', { 
-      data: function () {
-        return { select: '',
-                 response: '',
-                 newselect: '',
-                 input: ''}
-      },
-      props: ['subcategories', 'selected'],
-      template: '<div>'+
-                  '<select v-model="select" v-on:change="changeSelect">'+
-                    '<option disabled value="">Выберите один из вариантов</option>'+
-                    '<option v-for="subcategory in subcategories" v-bind:value="subcategory.id">{{subcategory.name}}</option>'+
-                  '</select>'+
-                  '<select v-model="newselect" v-on:change="changeNewSelect">'+
-                    '<option disabled value="">Выберите один из вариантов</option>'+
-                    '<option v-for="d in response.subCategories" v-bind:value="d.id">{{d.name}}</option>'+
-                  '</select>'+
-                  '<input v-model="input" type="text" name="name">'+
-                  '<button type="button" v-on:click="sendData">submit</button>'+
-                '</div>',
-      methods:{
-        changeSelect: function(){
-          console.log(this.select);
-          console.log(this.subcategories);
-
-          if(this.select!='') {
-            axios.get('/categories/'+this.select)
-              .then((response)=> {
-                this.response = response.data;
-                console.log(this.response);
-              })
-              .catch((error)=> {
-                console.log(error);
-              });
-          }
-        },
-        changeNewSelect: function() {
-          console.log(this.newselect)
-        },
-        sendData: function() {
-          console.log(this.input);
-        }
-      }
-    });
-
-    Vue.component('tab-add-attribute', { 
-      data: function () {
-        return { input: '' }
-      },
-      props: ['selected'],
-      template: '<div>'+
-                  '<input v-model="input" type="text" name="name" placeholder="attribute">'+
-                  '<button type="button" v-on:click="sendData">submit</button>'+
-                '</div>',
-      methods:{
-         sendData: function(){
-          console.log(this.selected)
-          console.log(this.input);
-         }
-      }
-    });
-
-    Vue.component('tab-add-product', { 
-      data: function () {
-        return { input: '' }
-      },
-      props: ['selected'],
-      template: '<div>'+
-                  '<input v-model="input" type="text" name="name" placeholder="attribute">'+
-                  '<button type="button" v-on:click="sendData">submit</button>'+
-                '</div>',
-      methods:{
-         sendData: function(){
-          console.log(this.selected)
-          console.log(this.input);
-         }
-      }
-    })
-
-    Vue.component('tab-add-unit', { 
-      data: function () {
-        return { input: '',
-                 select: ''}
-      },
-      props: ['selected'],
-      template: '<div>'+
-                  '<input v-model="input" type="text" name="name" placeholder="attribute">'+
-                  '<select v-model="select" v-on:change="changSelect">'+
-                    '<option disabled value="">Выберите один из вариантов</option>'+
-                    '<option value="0">Простой атрибут</option>'+
-                    '<option value="1">Для выставления цен</option>'+
-                    '<option value="2">Оба варианта</option>'+
-                  '</select>'+
-                  '<button type="button" v-on:click="sendData">submit</button>'+
-                '</div>',
-      methods:{
-        changSelect: function() {
-          console.log(this.select)
-        },
-        sendData: function(){
-        console.log(this.selected)
-        console.log(this.input);
-        }
-      }
-    });
-
-    Vue.component('tab-add-valute', { 
-      data: function () {
-        return { input: '' }
-      },
-      props: ['selected'],
-      template: '<div>'+
-                  '<input v-model="input" type="text" name="name" placeholder="attribute">'+
-                  '<button type="button" v-on:click="sendData">submit</button>'+
-                '</div>',
-      methods:{
-         sendData: function(){
-          console.log(this.selected)
-          console.log(this.input);
-         }
-      }
-    })
-
-     Vue.component('tab-add-cargo_type', { 
-     data: function () {
-        return { inputtitle: '',
-                 inputdescription: ''}
-      },
-      props: ['selected'],
-      template: '<div>'+
-                  '<input v-model="inputtitle" type="text" name="name" placeholder="attribute">'+
-                  '<input v-model="inputdescription" type="text" name="name" placeholder="attribute">'+
-                  '<button type="button" v-on:click="sendData">submit</button>'+
-                '</div>',
-      methods:{
-         sendData: function(){
-          console.log(this.selected)
-          console.log(this.inputtitle);
-          console.log(this.inputdescription);
-         }
-      }
-    });
-
-    Vue.component('tab-add-tails_type', { 
-      data: function () {
-        return { input: '' }
-      },
-      props: ['selected'],
-      template: '<div>'+
-                  '<input v-model="input" type="text" name="name" placeholder="attribute">'+
-                  '<button type="button" v-on:click="sendData">submit</button>'+
-                '</div>',
-      methods:{
-         sendData: function(){
-          console.log(this.selected)
-          console.log(this.input);
-         }
-      }
-    })
-
-    Vue.component('tab-add-upload_type', { 
-      data: function () {
-        return { input: '' }
-      },
-      props: ['selected'],
-      template: '<div>'+
-                  '<input v-model="input" type="text" name="name" placeholder="attribute">'+
-                  '<button type="button" v-on:click="sendData">submit</button>'+
-                '</div>',
-      methods:{
-         sendData: function(){
-          console.log(this.selected)
-          console.log(this.input);
-         }
-      }
-    });
-
-    Vue.component('tab-add-region', { 
-     data: function () {
-        return { input: '' }
-      },
-      props: ['selected'],
-      template: '<div>'+
-                  '<input v-model="input" type="text" name="name" placeholder="attribute">'+
-                  '<button type="button" v-on:click="sendData">submit</button>'+
-                '</div>',
-      methods:{
-         sendData: function(){
-          console.log(this.selected)
-          console.log(this.input);
-         }
-      }
-    })
-
-    Vue.component('tab-add-city', { 
-      data: function () {
-        return { input: '' }
-      },
-      props: ['selected'],
-      template: '<div>'+
-                  '<input v-model="input" type="text" name="name" placeholder="attribute">'+
-                  '<button type="button" v-on:click="sendData">submit</button>'+
-                '</div>',
-      methods:{
-         sendData: function(){
-          console.log(this.selected)
-          console.log(this.input);
-         }
-      }
-    });
-
-    Vue.component('tab-add-country', { 
-      data: function () {
-        return { input: '' }
-      },
-      props: ['selected'],
-      template: '<div>'+
-                  '<input v-model="input" type="text" name="name" placeholder="attribute">'+
-                  '<button type="button" v-on:click="sendData">submit</button>'+
-                '</div>',
-      methods:{
-         sendData: function(){
-          console.log(this.selected)
-          console.log(this.input);
-          axios.post('/country', {
-            data: this.input
-          })
-              .then((response)=> {
-                this.response = response.data;
-                console.log(this.response);
-              })
-              .catch((error)=> {
-                console.log(error);
-              });
-         }
-      }
-    })
-
-    var data = [
-      { text: 'add category', value: 'category' },
-      { text: 'add attribute', value: 'attribute' },
-      { text: 'add product', value: 'product' },
-      { text: 'add unit', value: 'unit' },
-      { text: 'add valute', value: 'valute' },
-      { text: 'add cargo_type', value: 'cargo_type' },
-      { text: 'add tails_type', value: 'tails_type' },
-      { text: 'add upload_type', value: 'upload_type' },
-      { text: 'add region', value: 'region' },
-      { text: 'add city', value: 'city' },
-      { text: 'add country', value: 'country' }
-    ];
-
-    var vm = new Vue({
-      el: '#v-dictionary',
-      data: {
-        selected: '',
-        options: data,
-        subCategories: '',
-      },
-      methods:{
-         signalChange: function(){
-
-            if(this.selected == 'category') {
-              axios.get('/categories/'+0)
-                .then((response)=> {
-                  this.subCategories = response.data;
-                  console.log(this.subCategories);
-                })
-                .catch((error)=> {
-                  console.log(error);
-                });
-
-            }
-         }
-      },
-      computed: {
-        currentTabComponent: function () {
-          console.log('popal/computed/currentTabComponent/'+this.selected)
-          if (this.selected&&this.selected!='') {
-              return 'tab-add-' + this.selected;
-          }
-        }
-      }
-    })
-
-    
-
-  </script>
 </body>
+	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/js/control.js"></script>
+	<script type="text/javascript" src="/js/control/product.js"></script>
+	<script type="text/javascript" src="/js/control/category.js"></script>
+	<script type="text/javascript" src="/js/control/attribute.js"></script>
+	<script type="text/javascript" src="/js/control/unit.js"></script>
+	<script type="text/javascript" src="/js/control/valute.js"></script>
+	<script type="text/javascript" src="/js/control/cargoType.js"></script>
+	<script type="text/javascript" src="/js/control/tailsType.js"></script>
+	<script type="text/javascript" src="/js/control/uploadType.js"></script>
+	<script type="text/javascript" src="/js/company.js"></script>
+	<script type="text/javascript" src="/js/documents.js"></script>
+	<script type="text/javascript" src="/js/aside.js"></script>
+	
+	<!-- <script type="text/javascript" src="/js/main.js"></script> -->
 </html>

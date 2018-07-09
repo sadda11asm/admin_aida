@@ -13,11 +13,12 @@ exports.getCompanies = async (isActual) => {
 			when co.type = 3 then 'Склад'
 			when co.type = 4 then 'Юр. лица'
 		END 'companyType'
-		FROM users.companies co
+		FROM users_demo.companies co
 		JOIN dictionary.cities c on c.id = co._city_id
 		WHERE co.is_actual = ?`, [isActual])
 	.then(([fields]) => {
 		conn.destroy()
+		console.log()
 		return {
 			status: 200,
 			message: 'THE COMPANIES',
@@ -35,8 +36,32 @@ exports.getCompanies = async (isActual) => {
 	return companies
 }
 
+exports.editCompanies = async (idCompany, isActual) => { 
+	let conn = await mysql.createConnection(dbconfig.server)
+	let updateCompany = await conn.query(`
+		UPDATE users_demo.companies co SET co.is_actual = ? 
+		WHERE co.id = ? `, [ isActual, idCompany])
+		.then((result) => {
+			conn.destroy()
+			return {
+				status: 200,
+				message: " update company  status",
+				companyInfo: result
+			}
+		})
+		.catch(err => {
+			conn.destroy()
+			console.log(err)
+			return {
+				status: 403,
+				message: "Error: " + err.message
+			}
+		})
+		return updateCompany
+}
 exports.getCompanyInfo = async (idCompany) => {
 	let conn = await mysql.createConnection(dbconfig.server)
+	let users = "users_demo.companies"
 	let company = await conn.query(
 		`
 		SELECT co.id 'idCompany', co.name 'companyName', co.rating, co._city_id 'idCity',
@@ -49,9 +74,9 @@ exports.getCompanyInfo = async (idCompany) => {
 			when co.type = 3 then 'Склад'
 			when co.type = 4 then 'Юр. лица'
 		END 'companyType'
-		FROM users_demo.companies co
+		FROM ?? co
 		JOIN dictionary.cities c ON c.id = co._city_id
-		WHERE co.id = ? `, [idCompany] 
+		WHERE co.id = ? `, [users, idCompany] 
 	)
 	.then(([fields]) => {
 		conn.destroy()
@@ -72,19 +97,18 @@ exports.getCompanyInfo = async (idCompany) => {
 	return company
 }
 
-exports.editCompany = async (idCompany) => {
-	let conn = mysql.createConnection()
-	let result = conn.query(
-	`
+exports.editCompany = async (idCompany, data) => {
+	let conn = await mysql.createConnection()
+	let result = conn.query(`
 	UPDATE users_demo.companies co 
 	SET co.name = ? , co.type = ? , co.rating = ? ,
 		co._city_id  = ? , co.is_actual = ? ,
 		co.email = ? , co.phone = ? , co.description = ? ,
 		co.legal_address = ? , co.phycal_address = ? ,
 		co.bin = ? , co.registration_number = ?
-	WHERE co.id = ? `, [companyName, type, rating, email, isActual,
-	phone, description, legalAddress, phycal_address, bin, 
-	registrationNumber, idCompany]
+	WHERE co.id = ? `, [data.companyName, data.type, data.rating, data.email, data.isActual,
+	data.phone, data.description, data.legalAddress, data.phycal_address, data.bin, 
+	data.registrationNumber, data.idCompany]
 	)
 	.then(([fields]) => {
 		conn.destroy()
@@ -101,9 +125,8 @@ exports.editCompany = async (idCompany) => {
 		}
 	})
 }
-
-exports.deleteCompany = async (idCompany) => {
-	let conn = mysql.createConnection(dbconfig.server)
+exports.dropCompany = async (idCompany) => {
+	let conn = await mysql.createConnection(dbconfig.server)
 	conn.query(
 		`DELETE FROM users_demo.companies c WHERE c.id = ?` , [idCompany]
 	)
@@ -123,4 +146,101 @@ exports.deleteCompany = async (idCompany) => {
 			message: "Error: " + err.message
 		}
 	})
+}
+exports.getAllUsersOfCompany = async (idCompany) => {
+	let conn = await mysql.createConnection(dbconfig.server)
+	let result;
+	await conn.query(`
+		SELECT co.id 'idCompany'
+		, co.name 'companyName'
+		, CASE 
+			when co.type = 1 then 'Завод'
+			when co.type = 2 then 'Логист'
+			when co.type = 3 then 'Склад'
+			when co.type = 4 then 'Юр. лица'
+			END 'companyType'
+		, u.id , u.firstname , u.lastname , u.email 
+		, u.credit_user_name , u.credit_craft_number, u.credit_cvv_cvc
+		, u.credit_expiry_date , u.balance, u.iin , u._language_id 
+		, u.user_type , u.identificate_info , u.is_active 
+		, JSON_EXTRACT(p.access_level, "$.role") 'role'
+		, JSON_EXTRACT(p.access_level, "$.queue") 'queue'
+		FROM users_demo.companies co
+		JOIN dictionary.cities c ON c.id = co._city_id
+		JOIN users_demo.permissions p ON p._company_id = co.id
+		JOIN users_demo.users u ON u.id = p._user_id
+		WHERE co.id = ? `, [idCompany])
+	.then(([fields]) => {
+		// console.log("fields", fields);
+		conn.destroy()
+		result = {
+			status: 200,
+			message: "All Users",
+			users: fields
+		}
+		return;
+	})
+	.catch( err => { 
+		console.log(err)
+		conn.destroy()
+		result =  {
+			status: 403,
+			message: "Error: " + err.message
+		}
+	})
+	// console.log("result ", result); 
+	return result;
+}
+exports.getUserOfCompany = async (idCompany, idUser) => {
+	let conn = await mysql.createConnection(dbconfig.server)
+	conn.query(`
+		SELECT co.id 'idCompany'
+		, co.name 'companyName'
+		, CASE 
+			when co.type = 1 then 'Завод'
+			when co.type = 2 then 'Логист'
+			when co.type = 3 then 'Склад'
+			when co.type = 4 then 'Юр. лица'
+			END 'companyType'
+		, u.id , u.firstname , u.lastname , u.email 
+		, u.credit_user_name , u.credit_craft_number, u.credit_cvv_cvc
+		, u.credit_expiry_date , u.balance, u.iin , u._language_id 
+		, u.user_type , u.identificate_info , u.is_active 
+		, JSON_EXTRACT(p.access_level, "$.role") 'role'
+		, JSON_EXTRACT(p.access_level, "$.queue") 'queue'
+		FROM users_demo.companies co
+		JOIN dictionary.cities c ON c.id = co._city_id
+		JOIN users_demo.permissions p ON p._company_id = co.id
+		JOIN users_demo.users u ON u.id = p._user_id
+		WHERE co.id = 270 AND u.id = 633`, [idCompany, idUser])
+	.then(([fields]) => {
+		conn.destroy()
+		return {
+			status: 200,
+			message: "user information companies",
+			user: fields,
+		}
+	})
+	.catch(err => {
+		console.log(err)
+		return {
+			status: 403,
+			message: "Error: " + err.message
+		}
+	})
+}
+// здесь  не дописаный код
+exports.editUserOfCompany =  async (idCompany, idUser, data) => {
+	let conn = await mysql.createConnection()
+// 	conn.query(
+// 		`UPDATE users_demo.companies co
+// JOIN users_demo.permissions p ON p._company_id = co.id
+// JOIN users_demo.users u ON u.id = p._user_id
+// SET u.firstname , u.lastname , u.email , u.credit_user_name , u.credit_craft_number 
+// 	, u.credit_cvv_cvc , u.user_type , u.identificate_info , u.is_active , 
+// 	, u.credit_expiry_date , u.landline_phone , u.mobile_phone , u.iin, u._language_id 
+// 	, u.user_type, u.identificate_info, u.
+// WHERE co.id = ? and u.id = ? 
+// 		`, [data. .... , idCompany, idUser]
+// 		)
 }

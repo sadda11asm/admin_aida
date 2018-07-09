@@ -15,7 +15,7 @@ exports.getLogin = function (req, res) {
         return res.redirect('/')
       }
     }
-    res.render('login')
+    res.render('pages/login')
 }
 
 exports.postLogin = function (req, res) {

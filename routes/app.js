@@ -17,7 +17,6 @@ const companies = require('./companies')
 const mailer = require('./nodemailer')
 const documents = require('./documents')
 
-
 module.exports = function(app) {
   // app.get('/login', ctrls.getLogin)
   // app.post('/login', ctrls.postLogin)
@@ -38,9 +37,20 @@ module.exports = function(app) {
   //   }
   // })
 
-  app.get('/', function(req, res, next){
-    res.render('index')
-  })
+  // app.get('/', function(req, res, next){
+  //   res.render('index')
+  // });
+
+
+  app.get('/aisultan', function(req, res, next){
+    res.render('companyInfo');
+  });
+
+  app.get('*', function(req, res, next){
+    res.render('index');
+  });
+  
+
   app.use('/categories', categories)
   app.use('/product', product)
   app.use('/unit', unit)
@@ -54,7 +64,7 @@ module.exports = function(app) {
   app.use('/country', country)
   app.use('/mailer', mailer)
   app.use('/documents', documents)
-  // app.use('/companies', companies)
+  app.use('/companies', companies)
 
   app.use((req, res, next) => {
     const error = new Error('Not foundde')

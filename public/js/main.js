@@ -247,7 +247,9 @@ dictionary.onchange = function() {
 function selectCategories() {
 	// let sel = document.getElementById("car-0").selectedIndex
 	// let id = document.getElementById("car-0").options[sel].value
-	let id = 110;
+
+	let sel = document.getElementById("cat-0").selectedIndex
+	let id = document.getElementById("cat-0").options[sel].value
 
 	let subCat = document.getElementById('subCat')
 	subCat.innerHTML = null
